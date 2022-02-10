@@ -10,6 +10,7 @@ Scripts do the following:
  - Provide you with image and command to use it
  
 > ***Warning!***
+> ---
 > If sources are not downloading or you have problems with file permissions
 > assume that this should be running in Docker with ```root``` priviledges.
 > ---
