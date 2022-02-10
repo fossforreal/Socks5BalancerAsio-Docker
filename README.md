@@ -3,7 +3,7 @@
 This is repository for scripts building a Docker image for [Socks5BalancerAsio](https://github.com/Socks5Balancer/Socks5BalancerAsio) using **Alpine linux** image for minimal size (~20 MB).
 
 Scripts do the following:
- - Download sources for building (Boost 1.74+ and [fossforreal/Socks5BalancerAsio v1.1](git clone https://github.com/fossforreal/Socks5BalancerAsio) ~~Boost-1.73.0 and Socks5BalancerAsio-1.0~~)
+ - Download sources for building (Boost 1.74+ and [fossforreal/Socks5BalancerAsio v1.1](https://github.com/fossforreal/Socks5BalancerAsio) ~~Boost-1.73.0 and Socks5BalancerAsio-1.0~~)
  - Build "builder" alpine image
  - Build Boost libs and Socks5BalancerAsio using it
  - Build "runner" alpine image with stripped binary
