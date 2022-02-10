@@ -4,24 +4,24 @@
 cd alpine-build
 
 # Socks5BalancerAsio - v1.1 (with fix in commit - 37b8cff06bdb7f8c892754e2c8fcf5dc743cf31c)
-#git clone https://github.com/fossforreal/Socks5BalancerAsio
+git clone https://github.com/fossforreal/Socks5BalancerAsio
 cd Socks5BalancerAsio
-#git checkout 37b8cff06bdb7f8c892754e2c8fcf5dc743cf31c
+git checkout 37b8cff06bdb7f8c892754e2c8fcf5dc743cf31c
 cd ..
 
 # Build builder docker image
-docker build -t socks5balancerasio2-build .
+docker build -t socks5balancerasio-build .
 
 # Run builder to output binary
 mkdir output
-docker run -v $(pwd)/Socks5BalancerAsio:/Socks5BalancerAsio -v $(pwd)/output:/output socks5balancerasio2-build /build.sh
+docker run -v $(pwd)/Socks5BalancerAsio:/Socks5BalancerAsio -v $(pwd)/output:/output socks5balancerasio-build /build.sh
 
 # Then finally build runner image
 cd ..
 cd alpine-run
 cp ../alpine-build/output/Socks5BalancerAsio ./Socks5BalancerAsio
 strip ./Socks5BalancerAsio
-docker build -t socks5balancerasio2 .
+docker build -t socks5balancerasio .
 
 # Prepare files for demo run
 cd ..
@@ -33,9 +33,9 @@ echo
 echo We have successfully built Socks5BalancerAsio
 echo \(hopefully you have not encountered any errors\)
 echo
-echo Resulting image: $(docker images socks5balancerasio2:latest --format "{{.Repository}}:{{.Tag}} -> {{.Size}}")
+echo Resulting image: $(docker images socks5balancerasio:latest --format "{{.Repository}}:{{.Tag}} -> {{.Size}}")
 echo
 echo You can test it by running:
 echo
-echo docker run -v \$\(pwd\)/html:/html -v \$\(pwd\)/config.json:/config.json -it socks5balancerasio2
+echo docker run -v \$\(pwd\)/html:/html -v \$\(pwd\)/config.json:/config.json -it socks5balancerasio
 echo
