@@ -4,9 +4,12 @@ This is repository for scripts building a Docker image for [Socks5BalancerAsio](
 
 See on DockerHub: [fossforreal/socks5balancerasio](https://hub.docker.com/r/fossforreal/socks5balancerasio/)
 
+> Currently image on DockerHub was built and tested for ```amd64``` (tag ```latest, latest-amd64```) architecture.
+> Other ```arm64, arm/v7``` are available with tags ```latest-arm64, latest-arm-v7```, but were not tested.
+
 ## TL;DR (How to use image from DockerHub)
 ```bash
-git clone https://github.com/Socks5BalancerAsio/Socks5BalancerAsio
+git clone https://github.com/Socks5Balancer/Socks5BalancerAsio
 cd Socks5BalancerAsio
 cp example-config/FullConfig.json config.json
 ```
@@ -27,6 +30,8 @@ Scripts do the following:
  - Build "runner" alpine image with stripped binary
  - Provide you with an image and command to use it
 
+All of this is available for ```amd64, arm64, arm/v7``` architectures (see ```# Other architectures```).
+
 To use Boost v1.73 and previous version checkout this repo at tag v1.0, i.e. commit - d76346b2631cdc39221d40013fb9ab76e6d4ced1.
 
 > --- 
@@ -35,13 +40,13 @@ To use Boost v1.73 and previous version checkout this repo at tag v1.0, i.e. com
 > If sources are not downloading or you have problems with file permissions
 > assume that this should be running in Docker with ```root``` priviledges.
 > 
-> Also you should have following utils: ```wget, tar, bzip2, git, strip, docker```
+> Also you should have following utils: ```wget, tar, bzip2, git, ~~strip,~~ docker```
 >
 > Keep in mind that compilation uses all cores ```make -j$(nproc)```, so make sure not to burn your CPU.
 >
 > ---
  
-## To perform the build process:
+## To perform the build process (amd64):
 
  1. Clone repository:
 ```bash
@@ -57,6 +62,17 @@ chmod +x ./alpine-build.sh && ./alpine-build.sh
  docker run -v $(pwd)/html:/html -v $(pwd)/config.json:/config.json \
      -p 5000:5000 -p 5002:5002 -p 5010:5010 -it socks5balancerasio
  ```
+
+## Other architectures
+
+> Prerequisites: Docker installed with BuildX plugin (on Debian,Redhat,Arch by default, see [Docker Docs](https://docs.docker.com/buildx/working-with-buildx/))
+
+Same thing as ```amd64``` but use other script (it builds ```amd64, arm64, arm/v7```):
+```bash
+chmod +x ./multiarch-alpine-build.sh && ./multiarch-alpine-build.sh
+```
+
+After that you will have Docker images ```socks5balancerasio:latest-{amd64,arm64,arm-v7}```.
  
 ## How to use manually built image:
 
@@ -67,21 +83,21 @@ chmod +x ./alpine-build.sh && ./alpine-build.sh
 docker run -v $(pwd)/html:/html -v $(pwd)/config.json:/config.json \
     -p 5000:5000 -p 5002:5002 -p 5010:5010 -it socks5balancerasio:latest
 ```
- 
- ## Configuration
- 
- Ports you need to publish (i.e. ```5000,5002,5010```) come from config options:
- ```json
- ...
- "listenPort": 5000,
- "stateServerPort": 5010,
- "EmbedWebServerConfig": {
-    ...
-    "port": 5002,
-    ...
- }
- ...
- ```
+
+## Configuration
+
+Ports you need to publish (i.e. ```5000,5002,5010```) come from config options:
+```json
+...
+"listenPort": 5000,
+"stateServerPort": 5010,
+"EmbedWebServerConfig": {
+...
+"port": 5002,
+...
+}
+...
+```
  
 To be able to publish (and access) these ports you should have options set as follows:
 ```json

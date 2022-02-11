@@ -1,6 +1,8 @@
-Socks5BalancerAsio
+Socks5BalancerAsio*
 boost_1_73_0*
-Socks5BalancerAsio
-output
+output*
 html
 config.json
+amd64
+arm64
+arm-v7
