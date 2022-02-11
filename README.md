@@ -5,6 +5,7 @@ This is repository for scripts building a Docker image for [Socks5BalancerAsio](
 See on DockerHub: [fossforreal/socks5balancerasio](https://hub.docker.com/r/fossforreal/socks5balancerasio/)
 
 > Currently image on DockerHub was built and tested for ```amd64``` (tag ```latest, latest-amd64```) architecture.
+> 
 > Other ```arm64, arm/v7``` are available with tags ```latest-arm64, latest-arm-v7```, but were not tested.
 
 ## TL;DR (How to use image from DockerHub)
@@ -30,7 +31,7 @@ Scripts do the following:
  - Build "runner" alpine image with stripped binary
  - Provide you with an image and command to use it
 
-All of this is available for ```amd64, arm64, arm/v7``` architectures (see ```# Other architectures```).
+All of this is available for ```amd64, arm64, arm/v7``` architectures (see **```# Other architectures```**).
 
 To use Boost v1.73 and previous version checkout this repo at tag v1.0, i.e. commit - d76346b2631cdc39221d40013fb9ab76e6d4ced1.
 
@@ -40,7 +41,7 @@ To use Boost v1.73 and previous version checkout this repo at tag v1.0, i.e. com
 > If sources are not downloading or you have problems with file permissions
 > assume that this should be running in Docker with ```root``` priviledges.
 > 
-> Also you should have following utils: ```wget, tar, bzip2, git, ~~strip,~~ docker```
+> Also you should have following utils: ```wget, git, docker``` (```tar, bzip2``` only for Boost-1.73)
 >
 > Keep in mind that compilation uses all cores ```make -j$(nproc)```, so make sure not to burn your CPU.
 >
@@ -65,7 +66,7 @@ chmod +x ./alpine-build.sh && ./alpine-build.sh
 
 ## Other architectures
 
-> Prerequisites: Docker installed with BuildX plugin (on Debian,Redhat,Arch by default, see [Docker Docs](https://docs.docker.com/buildx/working-with-buildx/))
+> Prerequisites: Docker installed with BuildX plugin (on Debian, Redhat, Arch it is by default, see [Docker Docs](https://docs.docker.com/buildx/working-with-buildx/))
 
 Same thing as ```amd64``` but use other script (it builds ```amd64, arm64, arm/v7```):
 ```bash
@@ -86,16 +87,21 @@ docker run -v $(pwd)/html:/html -v $(pwd)/config.json:/config.json \
 
 ## Configuration
 
-Ports you need to publish (i.e. ```5000,5002,5010```) come from config options:
+Ports you need to publish (i.e. ```5000,5002,5010```...) come from config options:
 ```json
 ...
-"listenPort": 5000,
-"stateServerPort": 5010,
-"EmbedWebServerConfig": {
-...
-"port": 5002,
-...
-}
+    "listenPort": 5000,
+    "stateServerPort": 5010,
+    "EmbedWebServerConfig": {
+        ...
+        "port": 5002,
+        ...
+    },
+    "multiListen": [
+        ... {
+        "port": 6010,
+        } ...
+    ]
 ...
 ```
  
@@ -114,11 +120,21 @@ To be able to publish (and access) these ports you should have options set as fo
 and if you have ```multiListen``` option as well:
 ```json
 "multiListen": [
-    ...
-    {
+    ... {
       "host": "0.0.0.0",
-    ...
+    } ...
  ]
  ...
 
 ```
+
+## Donate
+
+If my work somehow helped you, consider crypto donation in XMR (Monero) to this address:
+```
+84oCTQkSHL1AQMsGHWeJG6H3SdScdTCHpFsK75y4rms2KwtMkH3fSECJ3jiD5PVpJaQtKhtUDZANvb8DfV6iY6VrJ6xLkdA
+```
+
+## License
+
+*(c) **fossforreal***, [GNU GPLv3](LICENSE)
