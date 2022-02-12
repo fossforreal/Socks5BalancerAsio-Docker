@@ -1,7 +1,7 @@
 #!/bin/sh
 
-TAG=socks5balancerasio3
-TAGB=socks5balancerasio3-build
+TAG=socks5balancerasio
+TAGB=socks5balancerasio-build
 
 # Download sources into build directory 
 cd alpine-build
