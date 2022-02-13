@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  socksbalancer:
+    container_name: socksbalancer
+    # You can also use ":latest-arm64" or ":latest-arm-v7"
+    image: fossforreal/socks5balancerasio:latest-amd64
+    restart: always
+    volumes:
+    # If you do not use Embedded Web Server, exclude "/html"
+      - /path/to/html:/html
+      - /path/to/config.json:/config.json
+    ports:
+      - 5000:5000
+      - 5002:5002
+      - 5010:5010
+
+# Uncomment this block in case you want to use other existing network
+# networks:
+#   default:
+#     external: true
+#     name: my-pre-existing-network
+
+# Uncomment this block in case you want to specify custom subnet
+# networks:
+#   default:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 172.16.57.0/24

@@ -18,6 +18,36 @@ cp example-config/FullConfig.json config.json
 docker run -v $(pwd)/html:/html -v $(pwd)/config.json:/config.json \
     -p 5000:5000 -p 5002:5002 -p 5010:5010 -it fossforreal/socks5balancerasio:latest
 ```
+
+***Or if you prefer ```docker-compose```:***
+
+Replace ```/path/to``` with directory containing ```/html``` and valid ```config.json``` (see in cloned repo as shown above).
+
+And save following into ```docker-compose.yml``` (or use [file from this repo](docker-compose.yml)):
+
+```yaml
+version: '2'
+
+services:
+  socksbalancer:
+    container_name: socksbalancer
+    # You can also use ":latest-arm64" or ":latest-arm-v7"
+    image: fossforreal/socks5balancerasio:latest-amd64
+    restart: always
+    volumes:
+    # If you do not use Embedded Web Server, exclude "/html"
+      - /path/to/html:/html
+      - /path/to/config.json:/config.json
+    ports:
+      - 5000:5000
+      - 5002:5002
+      - 5010:5010
+```
+
+Then you can start with ```docker-compose up -d``` and stop ```docker-compose down```.
+
+**IMPORTANT!**
+
 For configuration options **scroll down and read section ```# Configuration```**, also check [Socks5BalancerAsio README.md](https://github.com/Socks5Balancer/Socks5BalancerAsio/blob/master/README.md)
 
 > Image with tag "v1.1" or "latest" uses Boost v1.77, while "v1.0" uses Boost v1.73.
